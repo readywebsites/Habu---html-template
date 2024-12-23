@@ -197,22 +197,22 @@
             <div class="contact-form-area wow animate__animated animate__fadeIn">
                 <h2>Leave a message</h2>
                 <div class="row">
-                <form id="contactForm">
-                  <div class="col-md-4">
-                    <input id="name" type="text" name="name" placeholder="Your Name" required>
-                  </div>
-                  <div class="col-md-4">
-                    <input type="email" id="email" name="email" placeholder="Your Email" required>
-                  </div>
-                  <div class="col-md-4">
-                    <input id="subject" type="text" name="subject" placeholder="Subject" required>
-                  </div>
-                  <div class="col-12">
-                    <textarea name="message" id="message" placeholder="Your Message" required></textarea>
-                    <button type="submit" class="large-blue-button">Send</button>
-                  </div>
-                </form>
-              </div>              
+                    <form id="contactForm">
+                        <div class="col-md-4">
+                        <input id="name" type="text" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="col-md-4">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="col-md-4">
+                        <input id="subject" type="text" name="subject" placeholder="Subject" required>
+                        </div>
+                        <div class="col-12">
+                        <textarea name="message" id="message" placeholder="Your Message" required></textarea>
+                        <input class="large-blue-button" type="submit" id="send">                     
+                              </div>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
@@ -313,46 +313,58 @@
     <script>
         new WOW().init();
     </script>
+    <script src="js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-      document.getElementById('contactForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-    
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const subject = document.getElementById('subject').value;
-        const message = document.getElementById('message').value;
-    
-        try {
-          const response = await fetch(
-            'https://script.google.com/macros/s/AKfycbwuvJXSmfhSe7GnBn4vhhMwjzPgs0_wTxnSrfTa3W-ap-sDdHsKDo8pH_EKDBNsIxgIFw/exec',
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-              body: new URLSearchParams({ cname: name, cemail: email, csubject: subject, cmessage: message }),
+      $(document).ready(function() {
+        $('#contactForm').on('submit', function(e) {
+          e.preventDefault();
+          
+          var name = $('#name').val();
+          var email = $('#email').val();
+          var subject = $('#subject').val();
+          var message = $('#message').val();
+  
+          $.ajax({
+            url: 'https://script.google.com/macros/s/AKfycbwezc4u5bI-YwYK9MxX3ZoKzDzkqEb0_xZD6jwnoq6LfP0wkcbaoUG94DwVlbH6uBJcfg/exec', // Replace with your Google Apps Script URL
+            method: 'POST',
+            data: {
+                cname: name,
+                cemail: email,
+                csubject: subject,
+                cmessage: message
+            },
+            success: function(response) {
+              toastr.success('Form submitted successfully!');
+              setTimeout(function() {
+                window.location.href = 'http://127.0.0.1:5500/contact.html';
+              }, 3000);
+            },
+            error: function() {
+              toastr.error('There was an error submitting the form. Please try again.');
             }
-          );
-    
-          if (response.ok) {
-            toastr.success('Form submitted successfully!');
-            setTimeout(() => {
-              window.location.href = 'http://127.0.0.1:5500/contact.html';
-            }, 3000);
-          } else {
-            toastr.error('There was an error submitting the form. Please try again.');
-          }
-        } catch (error) {
-          toastr.error('There was an error submitting the form. Please try again.');
-        }
+          });
+        });
       });
-    
+  
       toastr.options = {
-        closeButton: true,
-        positionClass: 'toast-top-full-width',
-        timeOut: 5000,
-      };
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-full-width",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
     </script>
-    
 </body>
 
 </html>
