@@ -326,7 +326,7 @@
           var message = $('#message').val();
   
           $.ajax({
-            url: 'https://script.google.com/macros/s/AKfycbwZArFPLVIqg7Z6Ry3iwTwCte8YjjWVmRpymZMd696J9eKg9mc1M5Exd0mBksK1k4eV/exec', // Replace with your Google Apps Script URL
+            url: 'https://script.google.com/macros/s/AKfycbwezc4u5bI-YwYK9MxX3ZoKzDzkqEb0_xZD6jwnoq6LfP0wkcbaoUG94DwVlbH6uBJcfg/exec', // Replace with your Google Apps Script URL
             method: 'POST',
             data: {
               name: name,
@@ -337,7 +337,7 @@
             success: function(response) {
               toastr.success('Form submitted successfully!');
               setTimeout(function() {
-                window.location.href = 'http://127.0.0.1:5500/contact.html';
+                window.location.href = 'https://habu-agency.biz499.in/contact.html';
               }, 3000);
             },
             error: function() {
